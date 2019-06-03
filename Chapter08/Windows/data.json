@@ -1,0 +1,12 @@
+{"index" : {"_index":"employee"}}
+{ "name":"user1", "email":"user1@packt.com","salary":5000, "gender":"M", "address1":"312 Main St", "address2":"Walthill", "state":"NE"}
+{"index" : {"_index":"employee"}}
+{ "name":"user2", "email":"user2@packt.com","salary":10000, "gender":"F", "address1":"5658 N Denver Ave", "address2":"Portland", "state":"OR"}
+{"index" : {"_index":"employee"}}
+{ "name":"user3", "email":"user3@packt.com","salary":7000, "gender":"F", "address1":"300 Quinterra Ln", "address2":"Danville", "state":"CA"}
+{"index" : {"_index":"department","_type":"department"}}
+{ "name":"IT", "employees":50 }
+{"index" : {"_index":"department","_type":"department"}}
+{ "name":"SALES", "employees":500 }
+{"index" : {"_index":"department","_type":"department"}}
+{ "name":"SUPPORT", "employees":100 }
