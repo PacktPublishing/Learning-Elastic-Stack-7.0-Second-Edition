@@ -1,0 +1,620 @@
+POST _analyze
+{
+"tokenizer": "standard",
+"text": "Tokenizer breaks characters into tokens!"
+}
+
+
+PUT index_standard_analyzer
+{
+"settings": {
+"analysis": {
+"analyzer": {
+"std": {
+"type": "standard"
+}
+}
+}
+},
+"mappings": {
+"properties": {
+"my_text": {
+"type": "text",
+"analyzer": "std"
+}
+}
+}
+}
+
+
+POST index_standard_analyzer/_analyze
+{
+"field": "my_text",
+"text": "The Standard Analyzer works this way."
+}
+
+
+PUT index_standard_analyzer_english_stopwords
+{
+"settings": {
+"analysis": {
+"analyzer": {
+"std": {
+"type": "standard",
+"stopwords": "_english_"
+}
+}
+}
+},
+"mappings": {
+"properties": {
+"my_text": {
+"type": "text",
+"analyzer": "std"
+}
+}
+}
+}
+
+
+POST index_standard_analyzer_english_stopwords/_analyze
+{
+"field": "my_text",
+"text": "The Standard Analyzer works this way."
+}
+
+
+GET /_analyze
+{
+"text": "Learning Elastic Stack 7",
+"analyzer": "standard"
+}
+
+
+PUT /custom_analyzer_index
+{
+"settings": {
+"index": {
+"analysis": {
+"analyzer": {
+"custom_analyzer": {
+"type": "custom",
+"tokenizer": "standard",
+"filter": [
+"lowercase",
+"custom_edge_ngram"
+]
+}
+},
+"filter": {
+"custom_edge_ngram": {
+"type": "edge_ngram",
+"min_gram": 2,
+"max_gram": 10
+}
+}
+}
+}
+},
+"mappings": {
+"properties": {
+"product": {
+"type": "text",
+"analyzer": "custom_analyzer",
+"search_analyzer": "standard"
+}
+}
+}
+}
+
+
+POST /custom_analyzer_index/_doc
+{
+"product": "Learning Elastic Stack 7"
+}
+POST /custom_analyzer_index/_doc
+{
+"product": "Mastering Elasticsearch"
+}
+
+
+GET /custom_analyzer_index/_search
+{
+"query": {
+"match": {
+"product": "Ela"
+}
+}
+}
+
+
+PUT /amazon_products
+{
+"settings": {
+"number_of_shards": 1,
+"number_of_replicas": 0,
+"analysis": {
+"analyzer": {}
+}
+},
+"mappings": {
+"properties": {
+"id": {
+"type": "keyword"
+},
+"title": {
+"type": "text"
+},
+"description": {
+"type": "text"
+},
+"manufacturer": {
+"type": "text",
+"fields": {
+"raw": {
+"type": "keyword"
+}
+}
+},
+"price": {
+"type": "scaled_float",
+"scaling_factor": 100
+}
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"match_all": {}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"range": {
+"price": {
+"gte": 10,
+"lte": 20
+}
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"from": 0,
+"size": 10,
+"query": {
+"range": {
+"price": {
+"gte": 10,
+"lte": 20,
+"boost": 2.2
+}
+}
+}
+}
+
+
+GET /orders/_search
+{
+"query": {
+"range" : {
+"orderDate" : {
+"gte": "01/09/2017",
+"lte": "30/09/2017",
+"format": "dd/MM/yyyy"
+}
+}
+}
+}
+
+
+GET /orders/_search
+{
+"query": {
+"range" : {
+"orderDate" : {
+"gte": "now-7d",
+"lte": "now"
+}
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"exists": {
+"field": "description"
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"term": {
+"manufacturer.raw": "victory multimedia"
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"constant_score": {
+"filter": {
+"term": {
+"manufacturer.raw": "victory multimedia"
+}
+}
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"match": {
+"manufacturer.raw": "victory multimedia"
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"term": {
+"manufacturer.raw": "victory multimedia"
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"match": {
+"manufacturer": "victory multimedia"
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"match": {
+"manufacturer": {
+"query": "victory multimedia",
+"operator": "and"
+}
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"match": {
+"manufacturer": {
+"query": "victory multimedia",
+"minimum_should_match": 2
+}
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"match": {
+"manufacturer": {
+"query": "victor multimedia",
+"fuzziness": 1
+}
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"match": {
+"manufacturer": {
+"query": "victer multimedia",
+"fuzziness": 2
+}
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"match_phrase": {
+"description": {
+"query": "real video saltware aquarium"
+}
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"match_phrase": {
+"description": {
+"query": "real video aquarium",
+"slop": 1
+}
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"multi_match": {
+"query": "monitor aquarium",
+"fields": ["title", "description"]
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"multi_match": {
+"query": "monitor aquarium",
+"fields": ["title^3", "description"]
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"term": {
+"manufacturer.raw": "victory multimedia"
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"constant_score": {
+"filter": {
+"term": {
+"manufacturer.raw": "victory multimedia"
+}
+}
+}
+}
+}
+
+
+
+GET /amazon_products/_search
+{
+"query": {
+"constant_score": {
+"filter": {
+"term": {
+"manufacturer.raw": "victory multimedia"
+}
+},
+"boost": 1.2
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"constant_score": {
+"filter": {
+"bool": {
+"should": [
+{
+"range": {
+"price": {
+"gte": 10,
+"lte": 13
+}
+}
+},
+{
+"term": {
+"manufacturer.raw": {
+"value": "valuesoft"
+}
+}
+}
+]
+}
+}
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"constant_score": {
+"filter": {
+"bool": {
+"must": [
+{
+"range": {
+"price": {
+"gte": 10,
+"lte": 30
+}
+}
+}
+],
+"should": [
+{
+"term": {
+"manufacturer.raw": {
+"value": "valuesoft"
+}
+}
+},
+{
+"term": {
+"manufacturer.raw": {
+"value": "pinnacle"
+}
+}
+}
+]
+}
+}
+}
+}
+}
+
+
+GET /amazon_products/_search
+{
+"query": {
+"constant_score": {
+"filter": {
+"bool": {
+"must": [
+{
+"range": {
+"price": {
+"gte": 10,
+"lte": 20
+}
+}
+}
+],
+"must_not": [
+{
+"term": {
+"manufacturer.raw": "encore"
+}
+}
+]
+}
+}
+}
+}
+}
+
+
+PUT /amazon_products_with_features/doc/c0001
+{
+"description": "The Lenovo ThinkPad X1 Carbon 20K4002UUS has a 14 inch
+IPS Full HD LED display which makes each image and video appear sharp and
+crisp. The Thinkpad has an Intel Core i5 6200U 2.3 GHz Dual-core processor
+with Intel HD 520 graphics and 8 GB LPDDR3 SDRAM that gives lag free
+experience. It has a 180 GB SSD which makes all essential data and
+entertainment files handy. It supports 802.11ac and Bluetooth 4.1 and runs
+on Windows 7 Pro 64-bit downgrade from Windows 10 Pro 64-bit operating
+system. The ThinkPad X1 Carbon has two USB 3.1 Gen 1 ports which enables 10
+times faster file transfer and has Gigabit ethernet for network
+communication. This notebook comes with 3 cell Lithium ion battery which
+gives upto 15.5 hours of battery life.",
+"price": "699.99",
+"id": "c0001",
+"title": "Lenovo ThinkPad X1 Carbon 20K4002UUS",
+"product_or_feature": "product",
+"manufacturer": "Lenovo"
+}
+
+
+PUT amazon_products_with_features/doc/c0001_screen_size?routing=c0001
+{
+"product_or_feature": {
+"name": "feature",
+"parent": "c0001"
+},
+"feature_key": "screen_size",
+"feature_value": "14 inches",
+"feature": "Screen Size"
+}
+
+
+GET amazon_products_with_features/_search
+{
+"query": {
+"has_child": {
+"type": "feature", 
+"query": {
+"bool": { 
+"must": [
+{
+"term": { 
+"feature_key": {
+"value": "processor_series"
+}
+}
+},
+{
+"term": { 
+"feature_value": {
+"value": "Core i7"
+}
+}
+}
+]
+}
+}
+}
+}
+}
+
+
+GET amazon_products_with_features/_search
+{
+"query": {
+"has_parent": {
+"parent_type": "product", 
+"query": { 
+"ids": {
+"values": ["c0001"]
+}
+}
+}
+}
+}
+
+
+GET /amazon_products_with_features/_search
+{
+"query": {
+"parent_id": {
+"type": "feature",
+"id": "c0001"
+}
+}
+}
