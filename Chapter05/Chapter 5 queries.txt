@@ -1,0 +1,47 @@
+curl -X PUT http://localhost:9200/_ingest/pipeline/secondpipeline -H
+'content-type: application/json'
+-d '{
+"description" : "uppercase the incoming value in the message field",
+"processors" : [
+{
+"uppercase" : {
+"field": "message",
+"ignore_failure" : true
+}
+},
+{
+"rename": {
+"field": "message",
+"target_field": "data",
+"ignore_failure" : true
+}
+},
+{
+"set": {
+"field": "label",
+"value": "testlabel",
+"override": false
+}
+}
+]
+}'
+
+
+curl -X PUT 'http://localhost:9200/myindex/mytpe/1?pipeline=secondpipeline' -H 'content-type: application/json' -d '{ "message":"elk is awesome"}'
+
+
+curl -X GET http://localhost:9200/myindex/mytpe/1 -H 'content-type: application/json'
+
+
+curl -X GET http://localhost:9200/_ingest/pipeline -H 'content-type: application/json'
+
+
+curl -X GET http://localhost:9200/_ingest/pipeline/secondpipeline -H 'content-type: application/json'
+
+
+curl -X DELETE http://localhost:9200/_ingest/pipeline/firstpipeline -H 'content-type: application/json'
+
+
+curl -X POST http://localhost:9200/_ingest/pipeline/firstpipeline/_simulate -H 'contenttype: application/json' -d '{ "docs" : [{ "_source": {"message":"first document"} }, { "_source": {"message":"second document"} }]}
+
+

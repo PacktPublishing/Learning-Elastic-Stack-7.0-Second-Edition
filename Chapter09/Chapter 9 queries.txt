@@ -1,0 +1,78 @@
+curl -XPUT 'http://localhost:9200/_snapshot/backups' -H 'Content-Type:
+application/json' -d '{
+"type": "fs",
+"settings": {
+"location": "/mount/es_backups/backups",
+"compress": true
+}
+}'
+
+
+curl -XPUT
+'http://localhost:9200/_snapshot/backups/backup_201905271530?pretty' -H
+'Content-Type: application/json' -d'
+{
+"indices": "bigginsight,logstash-*",
+"ignore_unavailable": true,
+"include_global_state": false
+}'
+
+
+curl -XPOST 'http://localhost:9200/_snapshot/backups/backup_201905271530/_restore'
+
+
+POST /_aliases
+{
+"actions" : [
+{ "add" : { "index" : "index1", "alias" : "current_index" } }
+]
+}
+
+
+POST /_aliases
+{
+"actions" : [
+{ "remove" : { "index" : "index1", "alias" : "current_index" } }
+]
+}
+
+
+POST /_aliases
+{
+"actions" : [
+{ "remove" : { "index" : "index1", "alias" : "current_index" } },
+{ "add" : { "index" : "index2", "alias" : "current_index" } }
+]
+}
+
+
+PUT _template/readings_template 
+{
+"index_patterns": ["readings*"], 
+"settings": { 
+"number_of_shards": 1
+},
+"mappings": { 
+"properties": {
+"sensorId": {
+"type": "keyword"
+},
+"timestamp": {
+"type": "date"
+},
+"reading": {
+"type": "double"
+}
+}
+}
+}
+
+
+POST /readings-2019-05-01/_doc
+{
+"sensorId": "a11111",
+"timestamp": 1483228800000,
+"reading": 1.02
+}
+
+

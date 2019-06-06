@@ -1,0 +1,16 @@
+curl -X GET 'http://localhost:9200/_cat/indices?v=&format=json'
+
+
+curl -X GET 'http://localhost:9200/_cat/indices?v'
+
+
+curl -X POST http://localhost:9200/_aliases -H 'content-type: application/json' -d ' { "actions": [ {"add":{ "index" : "metricbeat-7.0.0-2019.04.*", "alias": "april_04_metrics"} }]}'
+
+
+curl -X GET http://localhost:9200/april_04_metrics/_search
+
+
+curl -X POST http://localhost:9200/_aliases -d '{ "actions" : [ { "add" : { "index" : "it_sales", "alias" : "sales" } }, { "add" : { "index" : "retail_sales", "alias" : "sales" } } ] }
+
+
+curl -X POST http://localhost:9200/_aliases -d ' { "actions" : [ { "remove" : { "index" : "retail_sales", "alias" : "sales" } }] }
