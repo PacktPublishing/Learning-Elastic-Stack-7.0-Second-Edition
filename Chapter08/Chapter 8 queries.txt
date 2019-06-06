@@ -1,0 +1,29 @@
+curl -u elastic:elastic -X POST http://localhost:9200/_xpack/watcher/watch/logstash_error_watch -H
+'content-type: application/json' -d '{
+"trigger" : { "schedule" : { "interval" : "30s" }},
+"input" : {
+"search" : {
+"request" : {
+"indices" : [ "logstash*" ],
+"body" : {
+"query" : {
+"match" : { "message": "error" }
+}
+}
+}
+}
+},
+"condition" : {
+"compare" : { "ctx.payload.hits.total" : { "gt" : 0 }}
+},
+"actions" : {
+"log_error" : {
+"logging" : {
+"text" : "The number of errors in logs is
+{{ctx.payload.hits.total}}"
+}
+}
+}
+}'
+
+
