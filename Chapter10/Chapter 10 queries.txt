@@ -1,0 +1,116 @@
+#sql query:
+
+select
+st.sensor_type as sensorType,
+l.customer as customer,
+l.department as department,
+l.building_name as buildingName,
+l.room as room,
+l.floor as floor,
+l.location_on_floor as locationOnFloor,
+l.latitude,
+l.longitude
+from
+sensors s
+inner join
+sensor_type st ON s.sensor_type_id = st.sensor_type_id
+inner join
+location l ON s.location_id = l.location_id
+where
+s.sensor_id = 1;
+
+
+
+POST _template/sensor_data_template
+{
+"index_patterns": [
+"sensor_data*"
+],
+"settings": {
+"number_of_replicas": "1",
+"number_of_shards": "5"
+},
+"mappings": {
+"properties": {
+"sensorId": {
+"type": "integer"
+},
+"sensorType": {
+"type": "keyword",
+"fields": {
+"analyzed": {
+"type": "text"
+}
+}
+},
+"customer": {
+"type": "keyword",
+"fields": {
+"analyzed": {
+"type": "text"
+}
+}
+},
+"department": {
+"type": "keyword",
+"fields": {
+"analyzed": {
+"type": "text"
+}
+}
+},
+"buildingName": {
+"type": "keyword",
+"fields": {
+"analyzed": {
+"type": "text"
+}
+}
+},
+"room": {
+"type": "keyword",
+"fields": {
+"analyzed": {
+"type": "text"
+}
+}
+},
+"floor": {
+"type": "keyword",
+"fields": {
+"analyzed": {
+"type": "text"
+}
+}
+},
+"locationOnFloor": {
+"type": "keyword",
+"fields": {
+"analyzed": {
+"type": "text"
+}
+}
+},
+"location": {
+"type": "geo_point"
+},
+"time": {
+"type": "date"
+},
+"reading": {
+"type": "double"
+}
+}
+}
+}
+
+
+curl -XPOST -u sensor_data:sensor_data --header "Content-Type: application/json" "http://localhost:8080/" -d '{"sensor_id":1, "time":1512102540000,"reading":16.24}'
+
+
+GET /sensor_data-*/_search?size=0&track_total_hits=true
+{
+"query": {"match_all": {}}
+}
+
+
