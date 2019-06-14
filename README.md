@@ -67,8 +67,7 @@ is the founder and CEO of Valens DataLabs, a technologist, husband, and father o
 did his master's in computer science at the University of Texas, Dallas, USA. He is currently working as a senior principal architect at Broadcom. Prior to this, he was working as an Elasticsearch solutions architect at Oracle. He has given several tech talks at conferences such as Oracle Code events. Sharath is a certified trainer – Elastic Certified Instructor – one of the few technology experts in the world who has been certified by Elastic Inc. to deliver their official from the creators of Elastic training. He is also a data science and machine learning enthusiast. 
 In his free time, he likes playing with his lovely niece, Monisha; nephew, Chirayu; and his pet, Milo.
 
-## Other books by the authors
-[](https://www2.packtpub.com/big-data-and-business-intelligence/learning-elastic-stack-60?utm_source=github&utm_medium=repository&utm_campaign=)
+
 
 
 ### Suggestions and Feedback
