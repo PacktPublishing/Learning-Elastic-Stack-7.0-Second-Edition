@@ -59,7 +59,7 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 
 * Machine Learning with the Elastic Stack [[Packt]](https://www.packtpub.com/big-data-and-business-intelligence/machine-learning-elastic-stack?utm_source=github&utm_medium=repository&utm_campaign=) [[Amazon]](https://www.amazon.com/dp/1788477545)
 
-## Get to Know the Author
+## Get to Know the Authors
 **Pranav Shukla**
 is the founder and CEO of Valens DataLabs, a technologist, husband, and father of two. He is a big data architect and software craftsman who uses JVM-based languages. Pranav has over 14 years' experience in architecting enterprise applications for Fortune 500 companies and start-ups. His core expertise lies in building JVM-based, scalable, reactive, and data-driven applications using Java/Scala, the Hadoop ecosystem, Apache Spark, and NoSQL databases. Pranav founded Valens DataLabs with the vision of helping companies to leverage data to their competitive advantage. In his spare time, he enjoys reading books, playing musical instruments, singing, listening to music, and watching cricket.
 
