@@ -23,29 +23,27 @@ PUT /amazon_products
     }
   },
   "mappings": {
-    "products": {
-      "properties": {
-        "id": {
-          "type": "keyword"
-        },
-        "title": {
-          "type": "text"
-        },
-        "description": {
-          "type": "text"
-        },
-        "manufacturer": {
-          "type": "text",
-          "fields": {
-            "raw": {
-              "type": "keyword"
-            }
+    "properties": {
+      "id": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text"
+      },
+      "description": {
+        "type": "text"
+      },
+      "manufacturer": {
+        "type": "text",
+        "fields": {
+          "raw": {
+            "type": "keyword"
           }
-        },
-        "price": {
-          "type": "scaled_float",
-          "scaling_factor": 100
         }
+      },
+      "price": {
+        "type": "scaled_float",
+        "scaling_factor": 100
       }
     }
   }
