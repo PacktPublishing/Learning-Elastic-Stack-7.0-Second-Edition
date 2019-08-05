@@ -29,43 +29,41 @@ PUT /amazon_products_with_features
   },
   "mappings": {
     "doc": {
-      "properties": {
-        "id": {
-          "type": "keyword"
-        },
-        "product_or_feature": {
-          "type": "join",
-          "relations": {
-            "product": "feature"
-          }
-        },
-        "title": {
-          "type": "text"
-        },
-        "description": {
-          "type": "text"
-        },
-        "manufacturer": {
-          "type": "text",
-          "fields": {
-            "raw": {
-              "type": "keyword"
-            }
-          }
-        },
-        "price": {
-          "type": "scaled_float",
-          "scaling_factor": 100
-        },
-        "feature_key": {
-          "type": "keyword"
-        },
-        "feature": {
-          "type": "keyword"
-        },
-        "feature_value": {
-          "type": "keyword"
+      "id": {
+        "type": "keyword"
+      },
+      "product_or_feature": {
+        "type": "join",
+        "relations": {
+          "product": "feature"
         }
+      },
+      "title": {
+        "type": "text"
+      },
+      "description": {
+        "type": "text"
+      },
+      "manufacturer": {
+        "type": "text",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "price": {
+        "type": "scaled_float",
+        "scaling_factor": 100
+      },
+      "feature_key": {
+        "type": "keyword"
+      },
+      "feature": {
+        "type": "keyword"
+      },
+      "feature_value": {
+        "type": "keyword"
       }
     }
   }
