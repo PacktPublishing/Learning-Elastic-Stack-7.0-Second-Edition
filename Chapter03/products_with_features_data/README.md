@@ -28,7 +28,7 @@ PUT /amazon_products_with_features
     }
   },
   "mappings": {
-    "doc": {
+    "properties": {
       "id": {
         "type": "keyword"
       },
